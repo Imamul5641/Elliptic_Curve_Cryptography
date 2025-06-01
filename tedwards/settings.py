@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 from threading import local
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,9 +28,7 @@ SECRET_KEY = 'django-insecure-54ec!y6qqwm@sv34e8c73m36r@3j6*&49wn2gpn3vl5%5qa+jb
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'twisted-edwards-calculator.herokuapp.com',
-    'localhost',
-    '127.0.0.1'
+    "*"
 ]
 
 
@@ -47,6 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -131,6 +131,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
