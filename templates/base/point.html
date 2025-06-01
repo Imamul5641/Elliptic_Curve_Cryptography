@@ -1,0 +1,29 @@
+<style>
+    .points-div {
+        background-color: lightgrey;
+        border: 2px solid black;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        max-height: 30vh;
+      }
+</style>
+<div class = "d-flex justify-content-between flex-wrap">
+    <div>
+        <h3 class="mb-0">List of {{name}}</h3>
+        <span>(click on point to plot in graph)</span>
+    </div>
+    <div>
+        <h3>Number of Points in x={{start}} to x={{end}} :
+            <span  id="point_count">{{point_count}}</span>
+        </h3>
+    </div>
+</div>
+<div class="points-div mb-3">
+    <div class="row">
+        {% for i,j in Array %}
+        <div id="{{plot_id}}_{{i}},{{j}}" onclick="plot_{{ plot_id }}({{i}},{{j}})" class="col col-6 text-center p-1 border border-2">
+            <h5>({{i}},{{j}})<h5>
+        </div>
+        {% endfor %}
+    </div>
+</div>

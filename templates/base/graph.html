@@ -1,0 +1,124 @@
+<div id="scatter-plot-{{plot_id}}" class="border border-3 rounded-3 mb-3 w-100">
+  <div id="{{plot_id}}" style="width: 100%; height: 500px;"></div>
+</div>
+<script>
+    const x_{{plot_id}} = {{xarray|safe}};
+    const y_{{plot_id}} = {{yarray|safe}};
+<!--    console.log(x_{{plot_id}})-->
+<!--    console.log(y_{{plot_id}})-->
+    const graphDiv_{{plot_id}} = document.getElementById('{{plot_id}}');
+    let prevPoint_{{plot_id}} = "";
+
+    const data_{{plot_id}} = [{
+      x: x_{{plot_id}},
+      y: y_{{plot_id}},
+      mode: "markers",
+<!--      marker: { color: 'light', size: 8 }-->
+    }];
+
+    let plot_title = "Graph for {{plot_id}}";
+    {% if curve == '1' %}
+        plot_title = "Twisted Edwards Curve mod({{p}})";
+    {% elif curve == '2' %}
+        plot_title = "Short Weierstrass Curve mod({{p}})";
+    {% endif %}
+
+    const layout_{{plot_id}} = {
+      xaxis: { title: "X-axis" },
+      yaxis: { title: "Y-axis" },
+      title: plot_title,
+      autosize: true,
+    };
+
+    Plotly.newPlot(graphDiv_{{plot_id}}, data_{{plot_id}}, layout_{{plot_id}});
+
+    window["plot_{{plot_id}}"] = (new_x, new_y) => {
+      if (prevPoint_{{plot_id}} !== "") {
+        document.getElementById(prevPoint_{{plot_id}}).style.backgroundColor = "lightgrey";
+      }
+      const id = `{{plot_id}}_${new_x},${new_y}`;
+      document.getElementById(id).style.backgroundColor = "orange";
+      prevPoint_{{plot_id}} = id;
+
+      const trace = {
+        x: [new_x],
+        y: [new_y],
+        mode: "markers",
+        marker: { color: 'orange', size: 12 }
+      };
+
+      try {
+        Plotly.deleteTraces(graphDiv_{{plot_id}}, 1);
+      } catch (err) {}
+
+      Plotly.addTraces(graphDiv_{{plot_id}}, trace);
+    };
+  </script>
+
+
+
+<!--<div id="scatter-plot-{{plot_id}}" class="border border-5 rounded-3 mb-3 w-100">-->
+<!--        <div id='{{plot_id}}'></div>-->
+<!--        <script>-->
+<!--          var xArray = {{xarray}};-->
+<!--          var yArray = {{yarray}};-->
+<!--          var graphDiv = document.getElementById('{{plot_id}}');-->
+<!--          var prevPointClicked = "";-->
+<!--          // Define Data-->
+<!--          var data = [-->
+<!--            {-->
+<!--              x: xArray,-->
+<!--              y: yArray,-->
+<!--              mode: "markers",-->
+<!--              // marker: { size: 12 }-->
+<!--            },-->
+<!--          ];-->
+
+<!--          // Define Layout-->
+<!--          var layout = {-->
+<!--            xaxis: { title: "X-axis" },-->
+<!--            yaxis: { title: "Y-axis" },-->
+<!--            {% if curve == '1' %}-->
+<!--            title: "Twisted Edwards Curve mod({{p}})",-->
+<!--            {% elif curve == '2' %}-->
+<!--            title: "Short Weirstrass Curve mod({{p}})",-->
+<!--            {% endif %}-->
+<!--          };-->
+
+<!--          // Display using Plotly-->
+<!--          Plotly.newPlot(graphDiv, data, layout);-->
+
+<!--          //plots a new point in trace 1-->
+<!--          window["plot_{{ plot_id }}"] = (new_x, new_y)=>{-->
+<!--            if(prevPointClicked != ""){-->
+<!--              document.getElementById(prevPointClicked).style.backgroundColor = "lightgrey";-->
+<!--            }-->
+<!--            document.getElementById(new_x+","+new_y).style.backgroundColor = "orange";-->
+<!--            prevPointClicked = new_x+","+new_y;-->
+
+<!--            var x = [new_x];-->
+<!--            var y = [new_y];-->
+
+<!--            // Define Data-->
+<!--            var new_data = [-->
+<!--              {-->
+<!--                x: x,-->
+<!--                y: y,-->
+<!--                mode: "markers",-->
+<!--                marker: { size: 12 }-->
+<!--              },-->
+<!--            ];-->
+
+<!--            //delete trace 1 if available, otherwise throws error so catch it and skip-->
+<!--            try{-->
+<!--              Plotly.deleteTraces(graphDiv, 1);-->
+<!--            }catch(err){}-->
+
+<!--            //if new_x is not empty, plot it-->
+<!--            if(new_x){-->
+<!--              Plotly.plot('{{plot_id}}', new_data, layout);  //plot in trace 1-->
+<!--              document.getElementsByClassName("legend")[0].style.display = "none";-->
+<!--            }-->
+<!--          }-->
+<!--          </script>-->
+<!--      </div>-->
