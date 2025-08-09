@@ -129,7 +129,10 @@
         >, total number of points will be between {{ lo }} and {{ hi }}
         <br />
         <br />
-        <a href="/calculate/" class="btn btn-warning" autofocus>Continue</a>
+        <a href="/calculate/" class="btn btn-warning" autofocus
+        onclick="return handleClick({{ adp_form.cleaned_data.opt|default:'0' }});">
+          Continue
+        </a>
       </div>
 
       {%endif%}
@@ -140,6 +143,13 @@
   </body>
 
   <script>
+    function handleClick(opt) {
+        if (opt === 1) {
+            alert("Switch to a short Weierstrass curve before As this curve shall be developed By our upcoming juniors.");
+            return false; // Prevent navigation
+        }
+        return true; // Allow navigation
+    }
     input = document.getElementsByTagName("input");
     select = document.getElementsByTagName("select");
     for (let i = 0; i < input.length; i++) {
