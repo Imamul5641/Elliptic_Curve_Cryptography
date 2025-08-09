@@ -3,7 +3,6 @@ from django.core.exceptions import ValidationError
 
 class adp_form(forms.Form):
     opt_choices = (
-    ('1', "Twisted Edwards"),
     ('2', "Short Weirstrass")
     )
 
