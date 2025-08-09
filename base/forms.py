@@ -3,7 +3,8 @@ from django.core.exceptions import ValidationError
 
 class adp_form(forms.Form):
     opt_choices = (
-    ('2', "Short Weirstrass")
+        ('1', "Twisted Edwards"),
+        ('2', "Short Weirstrass")
     )
 
     opt = forms.ChoiceField(choices = opt_choices)
